@@ -1,263 +1,103 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Smart Rural Transformer Monitoring and Control System" />
-    <title>Smart Rural Transformer Monitoring and Control System</title>
-    <link rel="stylesheet" href="style.css" />
-    <script src="script.js" defer></script>
-  </head>
-  <body class="day-mode">
-    <div id="dashboardLauncher" class="dashboard-launcher">
-      <div class="launcher-card">
-        <p class="eyebrow">Integrated Current Systems</p>
-        <h1>Rural Power Dashboards</h1>
-        <p class="subtext">Choose the monitoring workspace you want to open.</p>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Sign in to the Integrated Current Systems workspace.">
+  <title>Sign in | Integrated Current Systems</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="login.js" defer></script>
+</head>
+<body>
+  <main class="auth-shell">
+    <section class="brand-panel" aria-label="Integrated Current Systems introduction">
+      <div class="brand-topline">
+        <a class="brand" href="index.html" aria-label="Integrated Current Systems home">
+          <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span>
+          <span>Integrated Current Systems</span>
+        </a>
+        <span class="brand-label">WORKSPACE OS</span>
+      </div>
 
-        <div class="dashboard-options">
-          <button type="button" class="dashboard-option transformer-option" data-open-dashboard="transformer">
-            <span class="dashboard-icon" aria-hidden="true">⚡</span>
-            <span>
-              <strong>Rural Transformer Network</strong>
-              <small>Monitor MAIN TRANSFORMER, TX-01 to TX-20, connections, fields, motors, and transformer owners.</small>
-            </span>
-            <span class="dashboard-arrow" aria-hidden="true">→</span>
-          </button>
-          <a class="dashboard-option electrical-option" href="location.html">
-            <span class="dashboard-icon" aria-hidden="true">⌁</span>
-            <span>
-              <strong>Rural Electrical Monitoring</strong>
-              <small>Select a village substation and review the rural electrical distribution status.</small>
-            </span>
-            <span class="dashboard-arrow" aria-hidden="true">→</span>
+      <div class="brand-message">
+        <p class="eyebrow">Welcome back</p>
+        <h1>Access your<br><em>operations.</em></h1>
+        <p class="brand-copy">Monitor the network, manage your teams, and act on live status updates from one secure space.</p>
+      </div>
+
+      <div class="brand-footer">
+        <span class="status-dot" aria-hidden="true"></span>
+        <span>All systems operational</span>
+        <span class="footer-rule" aria-hidden="true"></span>
+        <span>Est. 2024</span>
+      </div>
+    </section>
+
+    <section class="form-panel" aria-labelledby="signin-title">
+      <div class="form-wrap">
+        <div class="mobile-brand brand-topline">
+          <a class="brand" href="index.html" aria-label="Integrated Current Systems home">
+            <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span>
+            <span>Integrated Current Systems</span>
           </a>
         </div>
-      </div>
-    </div>
 
-    <div id="welcomeScreen" class="welcome-screen">
-      <div class="welcome-card">
-        <p class="eyebrow">Smart Rural Monitoring</p>
-        <h1>Select Your Location</h1>
-        <p class="subtext">Tell us who you are and the details of your village before opening the rural power dashboard.</p>
-
-        <div class="role-selector" aria-label="Select your role">
-          <button type="button" class="role-option active" data-role="Farmer">Farmer</button>
-          <button type="button" class="role-option" data-role="Utility Operator">Utility Operator</button>
-          <button type="button" class="role-option" data-role="Resident">Resident</button>
-          <button type="button" class="role-option" data-role="Other">Other</button>
+        <div class="form-heading">
+          <p class="eyebrow">Sign in</p>
+          <h2 id="signin-title">Welcome back<br><span>to your workspace.</span></h2>
+          <p>Use your work account to continue.</p>
         </div>
 
-        <form id="locationForm" class="landing-form">
-          <div class="field">
-            <label for="landingVillage">Village Name</label>
-            <input id="landingVillage" name="village" type="text" value="Ramakuppam" required />
+        <form id="login-form" novalidate>
+          <div class="field-group">
+            <label for="login-email">Work email</label>
+            <input id="login-email" name="email" type="email" autocomplete="email" placeholder="you@company.com" required>
+            <span class="field-error" id="login-email-error" role="alert"></span>
           </div>
-          <div class="field">
-            <label for="landingMandal">Mandal</label>
-            <input id="landingMandal" name="mandal" type="text" value="Ramakuppam" required />
-          </div>
-          <div class="field">
-            <label for="landingDistrict">District</label>
-            <input id="landingDistrict" name="district" type="text" value="Chittoor" required />
-          </div>
-          <div class="field">
-            <label for="landingState">State</label>
-            <input id="landingState" name="state" type="text" value="Andhra Pradesh" required />
-          </div>
-          <div class="field">
-            <label for="landingTransformerCount">Number of Transformers in Your Area</label>
-            <input id="landingTransformerCount" name="transformerCount" type="number" min="1" value="20" required />
-          </div>
-          <div class="field">
-            <label for="landingFieldCount">Number of Agricultural Fields</label>
-            <input id="landingFieldCount" name="fieldCount" type="number" min="1" value="20" required />
-          </div>
-          <div class="field">
-            <label for="landingMainTransformer">Main Transformer ID</label>
-            <input id="landingMainTransformer" name="mainTransformer" type="text" value="MAIN-TX-01" required />
-          </div>
-          <button type="submit" class="primary-button wide-button">Open Rural Network</button>
-        </form>
-      </div>
-    </div>
 
-    <div id="appShell" class="app-shell">
-      <header class="topbar">
-        <div class="brand-block">
-          <div class="logo-mark" aria-label="smart grid logo">⚡</div>
-          <div class="title-stack">
-            <h1 id="locationTitle">RAMAKUPPAM RURAL ELECTRICAL NETWORK</h1>
-            <p>Simulation Mode • Smart Rural Grid Monitoring</p>
-          </div>
-        </div>
-
-        <div class="top-controls">
-          <button class="mode-pill" type="button">LIVE MONITORING</button>
-          <button id="toggleDayNight" class="ghost-button" type="button">🌙 NIGHT MODE</button>
-        </div>
-      </header>
-
-      <aside class="sidebar">
-        <section class="panel">
-          <div class="panel-header">
-            <h3>Location Input</h3>
-          </div>
-          <div class="form-body">
-            <form id="configForm" class="config-grid">
-              <div class="field">
-                <label for="village">Village</label>
-                <input id="village" name="village" type="text" value="Ramakuppam" />
-              </div>
-              <div class="field">
-                <label for="mandal">Mandal</label>
-                <input id="mandal" name="mandal" type="text" value="Ramakuppam" />
-              </div>
-              <div class="field">
-                <label for="district">District</label>
-                <input id="district" name="district" type="text" value="Chittoor" />
-              </div>
-              <div class="field">
-                <label for="state">State</label>
-                <input id="state" name="state" type="text" value="Andhra Pradesh" />
-              </div>
-              <div class="field">
-                <label for="locationName">Location</label>
-                <input id="locationName" name="locationName" type="text" value="Rural Agricultural Area" />
-              </div>
-              <div class="field">
-                <label for="latitude">GPS Latitude</label>
-                <input id="latitude" name="latitude" type="text" value="13.0372" />
-              </div>
-              <div class="field">
-                <label for="longitude">GPS Longitude</label>
-                <input id="longitude" name="longitude" type="text" value="79.9154" />
-              </div>
-              <div class="field">
-                <label for="fieldCount">Number of Agricultural Fields</label>
-                <input id="fieldCount" name="fieldCount" type="number" min="1" value="20" />
-              </div>
-              <div class="field">
-                <label for="transformerCount">Number of 3-Phase Transformers</label>
-                <input id="transformerCount" name="transformerCount" type="number" min="1" value="20" />
-              </div>
-              <div class="field">
-                <label for="mainTransformer">Main Transformer ID</label>
-                <input id="mainTransformer" name="mainTransformer" type="text" value="MAIN-TX-01" />
-              </div>
-              <div class="field"><label for="villageCode">Village Code</label><input id="villageCode" name="villageCode" value="KUP-001" /></div>
-              <div class="field"><label for="population">Population</label><input id="population" name="population" type="number" min="0" value="3200" /></div>
-              <div class="field"><label for="houseCount">Houses</label><input id="houseCount" name="houseCount" type="number" min="0" value="850" /></div>
-              <div class="field"><label for="poleCount">Electrical Poles</label><input id="poleCount" name="poleCount" type="number" min="1" value="240" /></div>
-              <div class="field"><label for="streetLightCount">Street Lights</label><input id="streetLightCount" name="streetLightCount" type="number" min="0" value="180" /></div>
-              <div class="field"><label for="motorCount">Agricultural Motors</label><input id="motorCount" name="motorCount" type="number" min="0" value="75" /></div>
-              <div class="field"><label for="mainCapacity">Main Capacity</label><input id="mainCapacity" name="mainCapacity" value="5 MVA" /></div>
-              <div class="field"><label for="incomingVoltage">Incoming Voltage</label><input id="incomingVoltage" name="incomingVoltage" type="number" min="0" value="11000" /></div>
-              <div class="field"><label for="incomingCurrent">Incoming Current</label><input id="incomingCurrent" name="incomingCurrent" type="number" min="0" value="245" /></div>
-              <button class="primary-button" type="submit">Generate Network</button>
-            </form>
-          </div>
-        </section>
-
-        <section class="panel">
-          <div class="panel-header">
-            <h3>Legend</h3>
-          </div>
-          <div class="form-body">
-            <div class="config-grid">
-              <div class="field"><span>🟢 Online</span></div>
-              <div class="field"><span>🔴 Offline</span></div>
-              <div class="field"><span>🟠 Warning</span></div>
-              <div class="field"><span>⚠️ Fault</span></div>
+          <div class="field-group">
+            <div class="label-row">
+              <label for="login-password">Password</label>
+              <a href="#forgot" class="text-link">Forgot password?</a>
             </div>
+            <div class="password-input">
+              <input id="login-password" name="password" type="password" autocomplete="current-password" placeholder="Enter your password" required minlength="8">
+              <button class="visibility-button" type="button" aria-label="Show password" data-toggle-password>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z"></path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+              </button>
+            </div>
+            <span class="field-error" id="login-password-error" role="alert"></span>
           </div>
-        </section>
-      </aside>
 
-      <main class="main-panel">
-        <section class="summary-grid" aria-label="System status summary">
-          <div class="summary-card neutral">
-            <span class="label">Total Transformers</span>
-            <span class="value" id="summaryTotal">20</span>
+          <div class="form-options">
+            <label class="checkbox-label" for="remember-me">
+              <input id="remember-me" type="checkbox" checked>
+              <span class="checkbox-ui" aria-hidden="true"></span>
+              <span>Remember me</span>
+            </label>
           </div>
-          <div class="summary-card good">
-            <span class="label">Online</span>
-            <span class="value" id="summaryOnline">20</span>
-          </div>
-          <div class="summary-card danger">
-            <span class="label">Offline</span>
-            <span class="value" id="summaryOffline">0</span>
-          </div>
-          <div class="summary-card warning">
-            <span class="label">Fault</span>
-            <span class="value" id="summaryFault">0</span>
-          </div>
-          <div class="summary-card neutral">
-            <span class="label">Fields</span>
-            <span class="value" id="summaryFields">20</span>
-          </div>
-          <div class="summary-card neutral">
-            <span class="label">Motors Running</span>
-            <span class="value" id="summaryMotors">20</span>
-          </div>
-          <div class="summary-card neutral">
-            <span class="label">Main Transformer</span>
-            <span class="value status-badge" id="mainStatusLabel">ONLINE</span>
-          </div>
-          <div class="summary-card good">
-            <span class="label">System Health</span>
-            <span class="value status-badge" id="systemHealth">HEALTHY</span>
-          </div>
-        </section>
 
-        <div class="network-toolbar">
-          <div class="search-wrap">
-            <input id="searchInput" class="search-box" type="text" placeholder="Search TX / POLE / HOUSE / MOTOR / LIGHT" />
-          </div>
-          <div id="filterGroup" class="filter-group" aria-label="status filters">
-            <button type="button" class="filter-button active" data-filter="all">ALL</button>
-            <button type="button" class="filter-button" data-filter="online">ONLINE</button>
-            <button type="button" class="filter-button" data-filter="offline">OFFLINE</button>
-            <button type="button" class="filter-button" data-filter="fault">FAULT</button>
-            <button type="button" class="filter-button" data-filter="warning">WARNING</button>
-          </div>
-          <div class="zoom-controls">
-            <button type="button" id="zoomOut" aria-label="Zoom out">−</button>
-            <button type="button" id="zoomIn" aria-label="Zoom in">+</button>
-            <button type="button" id="resetView">RESET VIEW</button>
-            <button type="button" id="fitNetwork">FIT NETWORK</button>
-          </div>
-        </div>
+          <button class="submit-button" type="submit">
+            <span class="button-label">Sign in</span>
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h13M13 6l6 6-6 6"/></svg>
+          </button>
+          <p class="form-status" id="login-status" role="status" aria-live="polite"></p>
+        </form>
 
-        <div id="warningBanner" class="warning-banner" aria-live="polite">
-          <h4>⚠️ MAIN TRANSFORMER OFF</h4>
-          <p>Power supply interrupted.</p>
-          <p>All connected transformers affected.</p>
-        </div>
+        <p class="signup-prompt">Need an account? <a href="create-account.html" class="text-link">Create one <span aria-hidden="true">↗</span></a></p>
+        <p class="legal">Your information is encrypted and protected with enterprise-grade security controls.</p>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
 
-        <section class="network-stage" aria-label="Smart rural transformer network simulator">
-          <svg id="networkSvg" viewBox="0 0 1600 1040" preserveAspectRatio="xMidYMid meet" aria-label="Rural electrical network">
-            <g id="sceneLayer"></g>
-            <g id="nodeLayer"></g>
-          </svg>
-        </section>
-
-        <section class="monitor-grid" aria-label="Village monitoring overview">
-          <article class="monitor-panel village-overview"><div class="panel-header"><h3>Village Overview</h3></div><div id="villageOverview" class="metric-grid"></div></article>
-          <article class="monitor-panel"><div class="panel-header"><h3>Electrical Flow</h3></div><div class="flow-strip"><span>GRID</span><b>↓</b><span>MAIN TX</span><b>↓</b><span>DISTRIBUTION TX</span><b>↓</b><span>POLES</span><b>↓</b><span>LOADS</span></div><div id="electricalMetrics" class="metric-grid"></div></article>
-          <article class="monitor-panel"><div class="panel-header"><h3>Pole Network</h3></div><div id="poleMetrics" class="metric-grid"></div></article>
-          <article class="monitor-panel energy-panel"><div class="panel-header"><h3>Energy Consumption</h3></div><div id="energyMetrics" class="metric-grid"></div><div class="load-chart" aria-label="Hourly power consumption"><span style="height:38%"></span><span style="height:52%"></span><span style="height:45%"></span><span style="height:68%"></span><span style="height:82%"></span><span style="height:62%"></span><span style="height:91%"></span><span style="height:74%"></span><span style="height:55%"></span><span style="height:70%"></span><span style="height:48%"></span><span style="height:64%"></span></div><small>HOURLY POWER CONSUMPTION</small></article>
-          <article class="monitor-panel alert-panel"><div class="panel-header"><h3>Fault &amp; Alert Center</h3></div><ul id="alertList" class="alert-list"></ul></article>
-        </section>
-      </main>
-
-      <aside class="right-panel">
-        <section class="panel details-panel" id="detailsPanel" aria-live="polite"></section>
-
-        <section class="panel">
-          <div class="panel-header">
-            <h3>Event Log</h3>
           </div>
           <ul id="eventList" class="event-list" aria-live="polite"></ul>
         </section>
