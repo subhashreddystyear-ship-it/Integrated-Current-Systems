@@ -1138,6 +1138,7 @@ function applySearchAndFilter() {
 }
 
 function updateFilterButtons() {
+  if (!ui.filterGroup) return;
   ui.filterGroup.querySelectorAll('[data-filter]').forEach((button) => {
     button.classList.toggle('active', button.dataset.filter === appState.filter);
   });

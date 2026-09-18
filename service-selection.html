@@ -6,6 +6,9 @@
   <meta name="description" content="Choose a rural electricity service.">
   <title>Select a rural service | Integrated Current Systems</title>
   <link rel="stylesheet" href="style.css">
+  <script>
+    if (sessionStorage.getItem('isLoggedIn') !== 'true') window.location.href = 'index.html';
+  </script>
 </head>
 <body class="service-page">
   <main class="service-shell">
