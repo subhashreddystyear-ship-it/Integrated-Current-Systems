@@ -1,3 +1,7 @@
+if (sessionStorage.getItem('isLoggedIn') !== 'true') {
+  window.location.href = 'index.html';
+}
+
 const locationForm = document.querySelector('#location-form');
 const selects = [...locationForm.querySelectorAll('select')];
 const stationButtons = [...document.querySelectorAll('.substation-item')];
@@ -6,12 +10,19 @@ const selectedStatus = document.querySelector('#selected-status');
 const locationStatus = document.querySelector('#location-status');
 const confirmButton = document.querySelector('#confirm-location');
 const backButton = document.querySelector('#back-button');
+const signOutButton = document.querySelector('#sign-out-button');
 
 backButton.addEventListener('click', () => {
+  sessionStorage.removeItem('isLoggedIn');
   if (window.history.length > 1) {
     window.history.back();
     return;
   }
+  window.location.href = 'index.html';
+});
+
+signOutButton.addEventListener('click', () => {
+  sessionStorage.removeItem('isLoggedIn');
   window.location.href = 'index.html';
 });
 
@@ -56,6 +67,6 @@ confirmButton.addEventListener('click', () => {
   confirmButton.querySelector('span').textContent = 'Substation selected';
   locationStatus.textContent = `You are viewing ${selectedStation.textContent}.`;
   window.setTimeout(() => {
-    window.location.href = 'index.html';
+    window.location.href = 'location.html';
   }, 250);
 });

@@ -5,6 +5,10 @@ const statusMessage = document.querySelector('#login-status');
 const submitButton = loginForm.querySelector('.submit-button');
 const passwordToggle = document.querySelector('[data-toggle-password]');
 
+if (sessionStorage.getItem('isLoggedIn') === 'true') {
+  window.location.href = 'location.html';
+}
+
 const loginFields = [
   { input: emailInput, error: document.querySelector('#login-email-error'), message: 'Enter a valid email address.' },
   { input: passwordInput, error: document.querySelector('#login-password-error'), message: 'Password must be at least 8 characters.' }
@@ -41,6 +45,7 @@ loginForm.addEventListener('submit', (event) => {
   submitButton.classList.add('is-success');
   submitButton.querySelector('.button-label').textContent = 'Signed in';
   statusMessage.textContent = 'Login successful. Redirecting...';
+  sessionStorage.setItem('isLoggedIn', 'true');
 
   window.setTimeout(() => {
     window.location.href = 'location.html';
