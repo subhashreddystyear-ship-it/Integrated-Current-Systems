@@ -14,6 +14,40 @@
   --shadow: 0 18px 42px rgba(5, 17, 27, 0.28);
 }
 
+.service-page {
+  min-height: 100vh;
+  padding: 28px;
+  background: linear-gradient(135deg, #061823 0%, #0c2836 55%, #143d3d 100%);
+}
+.service-shell { width: min(980px, 100%); margin: 0 auto; padding: 10px 0 70px; }
+.service-header { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+.service-brand { color: #ebf8ff; font-size: .95rem; font-weight: 800; letter-spacing: .04em; text-decoration: none; }
+.service-back { color: #9ab7ca; font-size: .78rem; font-weight: 700; text-decoration: none; }
+.service-back:hover { color: #67d1ff; }
+.service-intro { max-width: 650px; margin: 15vh auto 52px; text-align: center; }
+.service-intro .eyebrow { color: #67d1ff; }
+.service-intro h1 { margin: 0; color: #f2fbff; font-size: clamp(2.3rem, 6vw, 5rem); letter-spacing: -.05em; line-height: 1; }
+.service-intro p:last-child { margin: 20px auto 0; color: #9ab7ca; line-height: 1.6; }
+.service-options { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+.service-option { display: grid; grid-template-columns: auto auto 1fr auto; gap: 17px; align-items: center; min-height: 220px; padding: 26px; border: 1px solid rgba(130, 197, 235, .25); border-radius: 16px; color: #ebf8ff; background: rgba(10, 28, 39, .94); text-decoration: none; transition: border-color .18s ease, transform .18s ease, background .18s ease; }
+.service-option:hover, .service-option:focus-visible { border-color: #67d1ff; background: rgba(18, 52, 65, .98); outline: none; transform: translateY(-4px); }
+.electricity-service:hover, .electricity-service:focus-visible { border-color: #58de9d; }
+.service-number { align-self: start; color: #9ab7ca; font-size: .68rem; font-weight: 800; letter-spacing: .08em; }
+.service-icon { display: grid; width: 54px; height: 54px; place-items: center; border-radius: 12px; color: #062630; background: #67d1ff; font-size: 1rem; font-weight: 900; }
+.electricity-service .service-icon { background: #58de9d; }
+.service-copy strong, .service-copy small { display: block; }
+.service-copy strong { font-size: 1.1rem; }
+.service-copy small { margin-top: 11px; color: #9ab7ca; line-height: 1.55; }
+.service-arrow { color: #67d1ff; font-size: 1.4rem; font-weight: 800; }
+.electricity-service .service-arrow { color: #58de9d; }
+
+@media (max-width: 700px) {
+  .service-page { padding: 22px 18px; }
+  .service-intro { margin: 12vh auto 36px; }
+  .service-options { grid-template-columns: 1fr; }
+  .service-option { min-height: 0; }
+}
+
 .welcome-screen {
   position: fixed;
   inset: 0;

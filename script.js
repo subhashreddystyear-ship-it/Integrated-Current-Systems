@@ -1,3 +1,7 @@
+if (sessionStorage.getItem('isLoggedIn') !== 'true') {
+  window.location.href = 'index.html';
+}
+
 const appState = {
   village: 'Ramakuppam',
   mandal: 'Ramakuppam',
@@ -152,7 +156,7 @@ function bindEvents() {
     generateNetwork();
   });
 
-  ui.locationForm.addEventListener('submit', (event) => {
+  ui.locationForm?.addEventListener('submit', (event) => {
     event.preventDefault();
     const formData = new FormData(ui.locationForm);
     appState.userRole = document.querySelector('.role-option.active')?.dataset.role || appState.userRole;

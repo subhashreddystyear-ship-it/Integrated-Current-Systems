@@ -67,6 +67,6 @@ confirmButton.addEventListener('click', () => {
   confirmButton.querySelector('span').textContent = 'Substation selected';
   locationStatus.textContent = `You are viewing ${selectedStation.textContent}.`;
   window.setTimeout(() => {
-    window.location.href = 'location.html';
+    window.location.href = 'service-selection.html';
   }, 250);
 });

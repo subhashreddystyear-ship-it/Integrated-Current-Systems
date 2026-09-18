@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Rural transformer and village electricity activities.">
+  <title>Rural electricity activities | Integrated Current Systems</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body class="day-mode">
+  <div id="dashboardLauncher" class="dashboard-launcher hidden" aria-hidden="true"></div>
+  <section id="welcomeScreen" class="welcome-screen hidden" aria-hidden="true"></section>
+
+  <div id="appShell" class="app-shell visible">
+    <header class="topbar">
+      <div class="brand-block">
+        <div class="logo-mark" aria-hidden="true">IC</div>
+        <div class="title-stack">
+          <h1 id="locationTitle">RURAL ELECTRICAL NETWORK</h1>
+          <p>Transformer and village electricity activities</p>
+        </div>
+      </div>
+      <div class="top-controls">
+        <button class="mode-pill" id="toggleDayNight" type="button">NIGHT MODE</button>
+        <a class="ghost-button" href="location.html">Change location</a>
+        <a class="ghost-button" href="index.html" onclick="sessionStorage.removeItem('isLoggedIn')">Sign out</a>
+      </div>
+    </header>
+
+    <aside class="sidebar">
+      <section id="transformer-activities" class="panel">
+        <div class="panel-header">
+          <h3>Transformer activities</h3>
+        </div>
+        <div class="form-body">
+          <p class="subtext">Select a transformer on the network to switch it, inspect its status, or simulate a fault.</p>
+          <div class="config-grid">
+            <label class="field"><span>Village</span><input name="village" value="Ramakuppam" form="configForm"></label>
+            <label class="field"><span>Mandal</span><input name="mandal" value="Ramakuppam" form="configForm"></label>
+            <label class="field"><span>District</span><input name="district" value="Chittoor" form="configForm"></label>
+            <label class="field"><span>State</span><input name="state" value="Andhra Pradesh" form="configForm"></label>
+            <label class="field"><span>Location name</span><input name="locationName" value="Rural Agricultural Area" form="configForm"></label>
+            <label class="field"><span>Transformer count</span><input name="transformerCount" type="number" value="20" form="configForm"></label>
+            <label class="field"><span>Field count</span><input name="fieldCount" type="number" value="20" form="configForm"></label>
+            <label class="field"><span>Main transformer</span><input name="mainTransformer" value="MAIN-TX-01" form="configForm"></label>
+          </div>
+          <button class="primary-button wide-button" type="submit" form="configForm">Update transformer network</button>
+        </div>
+      </section>
+
+      <section id="village-electricity-activities" class="panel">
+        <div class="panel-header"><h3>Village electricity activities</h3></div>
+        <div class="form-body">
+          <p class="subtext">Monitor poles, street lights, irrigation motors, energy use, and village supply health.</p>
+          <div class="summary-grid">
+            <div class="summary-card neutral"><span class="label">Transformers</span><strong id="summaryTotal" class="value">0</strong></div>
+            <div class="summary-card good"><span class="label">Online</span><strong id="summaryOnline" class="value">0</strong></div>
+            <div class="summary-card danger"><span class="label">Offline</span><strong id="summaryOffline" class="value">0</strong></div>
+            <div class="summary-card warning"><span class="label">Faults</span><strong id="summaryFault" class="value">0</strong></div>
+            <div class="summary-card neutral"><span class="label">Fields</span><strong id="summaryFields" class="value">0</strong></div>
+            <div class="summary-card good"><span class="label">Motors</span><strong id="summaryMotors" class="value">0</strong></div>
+          </div>
+        </div>
+      </section>
+    </aside>
+
+    <main class="main-panel">
+      <section class="panel">
+        <div class="panel-header">
+          <div class="network-toolbar">
+            <div>
+              <h3>Live rural network</h3>
+              <p class="subtext">Click a transformer, field, or main transformer to open its activity controls.</p>
+            </div>
+            <div class="zoom-controls">
+              <button id="zoomOut" type="button" aria-label="Zoom out">-</button>
+              <button id="resetView" type="button" aria-label="Reset view">Reset</button>
+              <button id="zoomIn" type="button" aria-label="Zoom in">+</button>
+              <button id="fitNetwork" type="button">Fit</button>
+            </div>
+          </div>
+          <div class="network-toolbar">
+            <div class="search-wrap"><input id="searchInput" class="search-box" type="search" placeholder="Search transformer or field"></div>
+            <div id="filterGroup" class="filter-group" aria-label="Network filter">
+              <button class="filter-button active" type="button" data-filter="all">All</button>
+              <button class="filter-button" type="button" data-filter="online">Online</button>
+              <button class="filter-button" type="button" data-filter="offline">Offline</button>
+              <button class="filter-button" type="button" data-filter="fault">Fault</button>
+            </div>
+          </div>
+        </div>
+        <div id="warningBanner" class="warning-banner"></div>
+        <div class="network-stage">
+          <svg id="networkSvg" viewBox="0 0 1000 760" role="img" aria-label="Rural electrical network map">
+            <g id="sceneLayer"></g>
+            <g id="nodeLayer"></g>
+          </svg>
+        </div>
+      </section>
+
+      <section class="monitor-grid">
+        <article class="monitor-panel"><div class="panel-header"><h3>Village overview</h3></div><div id="villageOverview" class="metric-grid"></div></article>
+        <article class="monitor-panel"><div class="panel-header"><h3>Electrical supply</h3></div><div id="electricalMetrics" class="metric-grid"></div></article>
+        <article class="monitor-panel"><div class="panel-header"><h3>Poles and lights</h3></div><div id="poleMetrics" class="metric-grid"></div><div id="lightMetrics" class="metric-grid"></div></article>
+        <article class="monitor-panel energy-panel"><div class="panel-header"><h3>Energy activity</h3></div><div id="energyMetrics" class="metric-grid"></div></article>
+      </section>
+    </main>
+
+    <aside class="right-panel">
+      <section class="panel">
+        <div class="panel-header"><h3>Selected activity</h3></div>
+        <div id="detailsPanel" class="form-body"></div>
+      </section>
+      <section class="panel">
+        <div class="panel-header"><h3>Village alerts</h3></div>
+        <ul id="alertList" class="alert-list"></ul>
+      </section>
+      <section class="panel">
+        <div class="panel-header"><h3>Activity log</h3></div>
+        <ul id="eventList" class="event-list"></ul>
+      </section>
+    </aside>
+  </div>
+
+  <form id="configForm" hidden>
+    <input name="village"><input name="mandal"><input name="district"><input name="state"><input name="locationName">
+    <input name="latitude" value="13.0372"><input name="longitude" value="79.9154"><input name="fieldCount"><input name="transformerCount"><input name="mainTransformer">
+    <input name="villageCode" value="KUP-001"><input name="population" value="3200"><input name="houseCount" value="850"><input name="poleCount" value="240"><input name="streetLightCount" value="180"><input name="motorCount" value="75"><input name="mainCapacity" value="5 MVA"><input name="incomingVoltage" value="11000"><input name="incomingCurrent" value="245">
+  </form>
+
+  <div id="shutdownModal" class="modal" aria-hidden="true">
+    <div class="modal-card">
+      <h3>Switch Main Transformer OFF</h3>
+      <div class="modal-grid">
+        <label class="field"><span>Reason</span><select id="shutdownReason"><option>Motor pump problem</option><option>Maintenance</option><option>Electrical fault</option><option>Emergency</option><option>Scheduled shutdown</option><option>Unknown</option><option>Other</option></select></label>
+        <label class="field"><span>Description</span><textarea id="shutdownDescription" placeholder="Add details"></textarea></label>
+      </div>
+      <div class="modal-actions"><button class="ghost-button" id="cancelShutdown" type="button">Cancel</button><button class="primary-button" id="confirmShutdown" type="button">Confirm shutdown</button></div>
+    </div>
+  </div>
+</body>
+</html>
