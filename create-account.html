@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Create an Integrated Current Systems workspace account.">
+  <title>Create account | Integrated Current Systems</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="create-account.js" defer></script>
+</head>
+<body>
+  <main class="auth-shell">
+    <section class="brand-panel" aria-label="Integrated Current Systems introduction">
+      <div class="brand-topline">
+        <a class="brand" href="index.html" aria-label="Integrated Current Systems home">
+          <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span>
+          <span>Integrated Current Systems</span>
+        </a>
+        <span class="brand-label">WORKSPACE OS</span>
+      </div>
+
+      <div class="brand-message">
+        <p class="eyebrow">Start with clarity</p>
+        <h1>Build what<br><em>matters.</em></h1>
+        <p class="brand-copy">Bring your team, projects, and next big idea into focus.</p>
+      </div>
+
+      <div class="brand-footer">
+        <span class="status-dot" aria-hidden="true"></span>
+        <span>All systems operational</span>
+        <span class="footer-rule" aria-hidden="true"></span>
+        <span>Est. 2024</span>
+      </div>
+    </section>
+
+    <section class="form-panel" aria-labelledby="signup-title">
+      <div class="form-wrap">
+        <div class="mobile-brand brand-topline">
+          <a class="brand" href="index.html" aria-label="Integrated Current Systems home">
+            <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span>
+            <span>Integrated Current Systems</span>
+          </a>
+        </div>
+
+        <div class="form-heading">
+          <p class="eyebrow">Create your account</p>
+          <h2 id="signup-title">Your next chapter<br><span>starts here.</span></h2>
+          <p>Set up your workspace in a few quick steps.</p>
+        </div>
+
+        <form id="signup-form" novalidate>
+          <div class="name-fields">
+            <div class="field-group">
+              <label for="first-name">First name</label>
+              <input id="first-name" name="firstName" type="text" autocomplete="given-name" placeholder="Alex" required>
+              <span class="field-error" id="first-name-error" role="alert"></span>
+            </div>
+            <div class="field-group">
+              <label for="last-name">Last name</label>
+              <input id="last-name" name="lastName" type="text" autocomplete="family-name" placeholder="Morgan" required>
+              <span class="field-error" id="last-name-error" role="alert"></span>
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label for="signup-email">Work email</label>
+            <input id="signup-email" name="email" type="email" autocomplete="email" placeholder="you@company.com" required>
+            <span class="field-error" id="signup-email-error" role="alert"></span>
+          </div>
+
+          <div class="field-group">
+            <label for="signup-password">Create a password</label>
+            <input id="signup-password" name="password" type="password" autocomplete="new-password" placeholder="At least 8 characters" required minlength="8">
+            <span class="field-error" id="signup-password-error" role="alert"></span>
+          </div>
+
+          <label class="checkbox-label terms-label">
+            <input type="checkbox" name="terms" required>
+            <span class="checkbox-ui" aria-hidden="true"></span>
+            <span>I agree to the <a href="#terms" class="text-link">Terms</a> and <a href="#privacy" class="text-link">Privacy Policy</a>.</span>
+          </label>
+
+          <button class="submit-button" type="submit">
+            <span class="button-label">Create your workspace</span>
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h13M13 6l6 6-6 6"/></svg>
+          </button>
+          <p class="form-status" id="signup-status" role="status" aria-live="polite"></p>
+        </form>
+
+        <p class="signup-prompt">Already have an account? <a href="index.html" class="text-link">Sign in <span aria-hidden="true">↗</span></a></p>
+        <p class="legal">Your information is encrypted and never shared without your permission.</p>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

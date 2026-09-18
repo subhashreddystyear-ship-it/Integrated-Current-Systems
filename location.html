@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Check your village substation status.">
+  <title>Check your village substations | Integrated Current Systems</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="location.js" defer></script>
+</head>
+<body class="location-page">
+  <header class="location-header">
+    <a class="brand" href="index.html" aria-label="Integrated Current Systems home">
+      <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span>
+      <span>Integrated Current Systems</span>
+    </a>
+    <nav class="header-actions" aria-label="Page actions">
+      <button class="header-link back-link" type="button" id="back-button">
+        <span aria-hidden="true">←</span> Back
+      </button>
+      <a class="header-link" href="index.html">Sign out <span aria-hidden="true">↗</span></a>
+    </nav>
+  </header>
+
+  <main class="location-main">
+    <div class="location-intro">
+      <div>
+        <p class="eyebrow location-eyebrow">Live network view</p>
+        <h1>Check your village<br><em>substations.</em></h1>
+        <p class="location-copy">Choose your location to see the current status of your nearest substation.</p>
+      </div>
+      <div class="live-pill"><span class="status-dot" aria-hidden="true"></span> Live updates</div>
+    </div>
+
+    <section class="location-card" aria-labelledby="location-title">
+      <div class="section-heading">
+        <span class="step-number">01</span>
+        <div>
+          <h2 id="location-title">Select your location</h2>
+          <p>Tell us where you are to find the right network.</p>
+        </div>
+      </div>
+
+      <form id="location-form">
+        <div class="location-grid">
+          <div class="select-group">
+            <label for="country">Country</label>
+            <select id="country" required>
+              <option value="">Select country</option>
+              <option value="India">India</option>
+            </select>
+          </div>
+          <div class="select-group">
+            <label for="state">State</label>
+            <select id="state" required disabled>
+              <option value="">Select state</option>
+              <option value="Andhra Pradesh">Andhra Pradesh</option>
+              <option value="Telangana">Telangana</option>
+            </select>
+          </div>
+          <div class="select-group">
+            <label for="district">District</label>
+            <select id="district" required disabled>
+              <option value="">Select district</option>
+              <option value="Nellore">Nellore</option>
+              <option value="Chittoor">Chittoor</option>
+            </select>
+          </div>
+          <div class="select-group">
+            <label for="mandalam">Mandalam</label>
+            <select id="mandalam" required disabled>
+              <option value="">Select mandalam</option>
+              <option value="Kavali">Kavali</option>
+              <option value="Rapur">Rapur</option>
+              <option value="Kuppam">Kuppam</option>
+              <option value="Santhipuram">Santhipuram</option>
+              <option value="Gudupalle">Gudupalle</option>
+              <option value="Ramakuppam">Ramakuppam</option>
+            </select>
+          </div>
+          <div class="select-group">
+            <label for="panchayath">Panchayath</label>
+            <select id="panchayath" required disabled>
+              <option value="">Select panchayath</option>
+              <option value="Duttalur">Duttalur</option>
+              <option value="Kaligiri">Kaligiri</option>
+              <option value="89-Peddur">89-Peddur (Pedduru)</option>
+              <option value="Baipparedlapalle">Baipparedlapalle (Baiparedlipalle)</option>
+              <option value="Balla">Balla</option>
+              <option value="Bandarlapalle">Bandarlapalle (Bandrlapalle)</option>
+              <option value="Cheldiganipalle">Cheldiganipalle</option>
+              <option value="Chikkapalli Thanda">Chikkapalli Thanda</option>
+              <option value="Gorivimakulapalle">Gorivimakulapalle</option>
+              <option value="Gutturu Thanda">Gutturu Thanda</option>
+              <option value="Kenchanaballa">Kenchanaballa</option>
+              <option value="Konganapalle">Konganapalle</option>
+              <option value="Manendram">Manendram</option>
+              <option value="Muddanapalle">Muddanapalle</option>
+              <option value="Naniyala Thanda">Naniyala Thanda</option>
+              <option value="Narayanapuram Thanda">Narayanapuram Thanda</option>
+              <option value="Pandyalamadugu">Pandyalamadugu</option>
+              <option value="Pedda Thanda">Pedda Thanda</option>
+              <option value="Pulimadugu Kothuru Thanda">Pulimadugu Kothuru Thanda (P.M.K. Thanda)</option>
+              <option value="Rajupeta">Rajupeta</option>
+              <option value="Ramakuppam">Ramakuppam</option>
+              <option value="Singasamudram">Singasamudram</option>
+              <option value="Unisiganipalle">Unisiganipalle</option>
+              <option value="Veeranamala">Veeranamala</option>
+              <option value="Vijalapuram">Vijalapuram</option>
+            </select>
+          </div>
+          <div class="select-group">
+            <label for="village">Substation point</label>
+            <select id="village" required disabled>
+              <option value="">Select substation point</option>
+              <option value="Ananthasagaram">Ananthasagaram</option>
+              <option value="Varikuntapadu">Varikuntapadu</option>
+              <option value="Bandarlapalli">Bandarlapalli (Bandarlapalle)</option>
+              <option value="Gorivimakulapalle">Gorivimakulapalle</option>
+              <option value="Ramakuppam">Ramakuppam (Mandal Headquarters)</option>
+              <option value="Vijalapuram">Vijalapuram</option>
+              <option value="Cheldiganipalli">Cheldiganipalli (Cheldiganipalle)</option>
+            </select>
+          </div>
+        </div>
+      </form>
+    </section>
+
+    <section class="substation-section" aria-labelledby="substation-title">
+      <div class="section-heading">
+        <span class="step-number">02</span>
+        <div>
+          <h2 id="substation-title">Select your substation</h2>
+          <p>See the latest power status before you continue.</p>
+        </div>
+      </div>
+      <div class="substation-layout">
+        <div class="substation-list" role="list">
+          <button class="substation-item is-selected" type="button" data-station="Kavali 33/11kV">
+            <span><strong>Kavali 33/11kV</strong><small>Primary distribution station</small></span>
+            <span class="station-state"><i></i>Online</span>
+          </button>
+          <button class="substation-item" type="button" data-station="Duttalur 11kV">
+            <span><strong>Duttalur 11kV</strong><small>Local distribution station</small></span>
+            <span class="station-state"><i></i>Online</span>
+          </button>
+          <button class="substation-item" type="button" data-station="Kaligiri 11kV">
+            <span><strong>Kaligiri 11kV</strong><small>Local distribution station</small></span>
+            <span class="station-state warning"><i></i>Maintenance</span>
+          </button>
+        </div>
+        <div class="status-panel">
+          <div class="status-panel-top"><span class="status-label">CURRENT STATUS</span><span class="status-live"><i></i> Live</span></div>
+          <div class="status-icon" aria-hidden="true">✓</div>
+          <h3 id="selected-station">Kavali 33/11kV</h3>
+          <p id="selected-status">Power supply is stable in this area.</p>
+          <div class="status-meta"><span>Last checked</span><strong>Just now</strong></div>
+          <button class="submit-button status-button" type="button" id="confirm-location"><span>Continue with this substation</span><span aria-hidden="true">→</span></button>
+          <p class="form-status" id="location-status" role="status" aria-live="polite"></p>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
