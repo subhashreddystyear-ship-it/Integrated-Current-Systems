@@ -14,13 +14,13 @@
   <main class="service-shell">
     <header class="service-header">
       <a class="service-brand" href="location.html">Integrated Current Systems</a>
-      <a class="service-back" href="location.html">Change location</a>
+      <a class="service-back" href="location.html" onclick="sessionStorage.removeItem('smartRuralLocation')">Change location</a>
     </header>
 
     <section class="service-intro" aria-labelledby="service-title">
       <p class="eyebrow">Rural operations workspace</p>
-      <h1 id="service-title">Which service do you want?</h1>
-      <p>Select an activity area for the location you just confirmed.</p>
+      <h1 id="service-title">Connected village workspace</h1>
+      <p>View village electricity and rural transformer systems together for the same current network.</p>
     </section>
 
     <section class="service-options" aria-label="Rural service options">
@@ -37,6 +37,10 @@
         <span class="service-arrow" aria-hidden="true">-&gt;</span>
       </a>
     </section>
+    <a class="combined-service-link" href="rural-dashboard.html">
+      <span><strong>Open both systems together</strong><small>See the village electrical supply beside its interconnected rural transformers.</small></span>
+      <span aria-hidden="true">-&gt;</span>
+    </a>
   </main>
 </body>
 </html>

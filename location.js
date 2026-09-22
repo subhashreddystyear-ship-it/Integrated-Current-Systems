@@ -8,6 +8,8 @@ const stationButtons = [...document.querySelectorAll('.substation-item')];
 const selectedStation = document.querySelector('#selected-station');
 const selectedStatus = document.querySelector('#selected-status');
 const locationStatus = document.querySelector('#location-status');
+const villageSearch = document.querySelector('#village-search');
+const villageSelect = document.querySelector('#village');
 const confirmButton = document.querySelector('#confirm-location');
 const backButton = document.querySelector('#back-button');
 const signOutButton = document.querySelector('#sign-out-button');
@@ -34,8 +36,20 @@ selects.forEach((select, index) => {
     });
     const nextSelect = selects[index + 1];
     if (select.value && nextSelect) nextSelect.disabled = false;
+    if (select === selects[selects.length - 2] && select.value) villageSearch.disabled = false;
     locationStatus.textContent = '';
   });
+});
+
+villageSearch.addEventListener('input', () => {
+  const query = villageSearch.value.trim().toLowerCase();
+  const match = [...villageSelect.options].find((option) => option.value.toLowerCase() === query);
+  if (match) {
+    villageSelect.value = match.value;
+    locationStatus.textContent = `Village found: ${match.textContent}.`;
+    return;
+  }
+  if (query) locationStatus.textContent = 'Keep typing or choose a village from the list.';
 });
 
 stationButtons.forEach((button) => {

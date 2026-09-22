@@ -97,6 +97,7 @@ function cacheUi() {
   ui.locationForm = document.getElementById('locationForm');
   ui.roleButtons = document.querySelectorAll('.role-option');
   ui.form = document.getElementById('configForm');
+  ui.setup = document.getElementById('dashboardSetup');
   ui.search = document.getElementById('searchInput');
   ui.filterGroup = document.getElementById('filterGroup');
   ui.locationTitle = document.getElementById('locationTitle');
@@ -120,6 +121,7 @@ function cacheUi() {
   ui.nodeLayer = document.getElementById('nodeLayer');
   ui.sceneLayer = document.getElementById('sceneLayer');
   ui.nightButton = document.getElementById('toggleDayNight');
+  ui.nextVillage = document.getElementById('nextVillage');
   ui.zoomIn = document.getElementById('zoomIn');
   ui.zoomOut = document.getElementById('zoomOut');
   ui.resetView = document.getElementById('resetView');
@@ -154,6 +156,20 @@ function bindEvents() {
     appState.mainTransformerName = formData.get('mainTransformer') || appState.mainTransformerName;
     readVillageMetrics(formData);
     generateNetwork();
+  });
+
+  ui.setup?.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const formData = new FormData(ui.setup);
+    appState.village = formData.get('village')?.trim() || appState.village;
+    appState.transformerCount = Math.max(1, Math.min(40, Number(formData.get('transformerCount')) || appState.transformerCount));
+    appState.poleCount = Math.max(1, Math.min(80, Number(formData.get('poleCount')) || appState.poleCount));
+    appState.motorCount = Math.max(0, Math.min(40, Number(formData.get('motorCount')) || 0));
+    appState.fieldCount = Math.max(1, Math.min(40, Number(formData.get('fieldCount')) || appState.fieldCount));
+    appState.locationName = `${appState.village} Rural Area`;
+    syncConfigForm();
+    generateNetwork();
+    document.querySelector('.main-panel')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
 
   ui.locationForm?.addEventListener('submit', (event) => {
@@ -194,6 +210,9 @@ function bindEvents() {
   });
 
   ui.nightButton.addEventListener('click', toggleDayNight);
+  ui.nextVillage?.addEventListener('click', () => {
+    sessionStorage.removeItem('smartRuralLocation');
+  });
   ui.zoomIn.addEventListener('click', () => setZoom(1.15));
   ui.zoomOut.addEventListener('click', () => setZoom(0.85));
   ui.resetView.addEventListener('click', () => {
@@ -261,6 +280,8 @@ function syncConfigForm() {
   Object.entries(formFields).forEach(([name, value]) => {
     const field = ui.form.elements.namedItem(name);
     if (field) field.value = value;
+    const setupField = ui.setup?.elements.namedItem(name);
+    if (setupField) setupField.value = value;
   });
 }
 
@@ -299,8 +320,8 @@ function generateNetwork() {
   ui.sceneLayer.innerHTML = '';
   renderLandscape();
 
-  const centerX = 800;
-  const centerY = 520;
+  const centerX = 500;
+  const centerY = 370;
   const total = Math.max(appState.transformerCount, appState.fieldCount);
 
   for (let index = 0; index < appState.fieldCount; index += 1) {
@@ -310,9 +331,9 @@ function generateNetwork() {
     const field = {
       id: fieldId,
       name: fieldId,
-      motorId: `MOTOR-${String(index + 1).padStart(2, '0')}`,
-      x: centerX + Math.cos(angle) * radius,
-      y: centerY + Math.sin(angle) * 390
+      motorId: index < appState.motorCount ? `MOTOR-${String(index + 1).padStart(2, '0')}` : 'NO PUMP',
+      x: centerX + Math.cos(angle) * Math.min(radius, 350),
+      y: centerY + Math.sin(angle) * 210
     };
     appState.fields.push(field);
     createField(field);
@@ -361,8 +382,8 @@ function getTransformerPosition(index) {
   const radiusY = isInnerRing ? 225 : 400;
 
   return {
-    x: 800 + Math.cos(angle) * radiusX,
-    y: 520 + Math.sin(angle) * radiusY
+    x: 500 + Math.cos(angle) * radiusX,
+    y: 370 + Math.sin(angle) * radiusY
   };
 }
 
@@ -531,6 +552,15 @@ function renderPoles() {
 }
 
 function createField(field) {
+  const pumpX = field.x - 66;
+  const pumpY = field.y - 52;
+  if (field.motorId !== 'NO PUMP') {
+    const waterFlow = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    waterFlow.setAttribute('d', `M ${pumpX} ${pumpY} C ${pumpX + 22} ${pumpY + 20}, ${field.x - 24} ${field.y - 24}, ${field.x} ${field.y}`);
+    waterFlow.setAttribute('class', 'water-flow');
+    ui.sceneLayer.appendChild(waterFlow);
+  }
+
   const group = document.createElementNS('http://www.w3.org/2000/svg', 'g');
   group.setAttribute('class', 'field-node');
   group.setAttribute('data-id', field.id);
@@ -560,6 +590,23 @@ function createField(field) {
   motor.setAttribute('fill', '#062630');
   motor.textContent = field.motorId;
   group.appendChild(motor);
+
+  if (field.motorId !== 'NO PUMP') {
+    const pump = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    pump.setAttribute('cx', pumpX - field.x);
+    pump.setAttribute('cy', pumpY - field.y);
+    pump.setAttribute('r', 13);
+    pump.setAttribute('class', 'pump-node');
+    group.appendChild(pump);
+
+    const pumpLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    pumpLabel.setAttribute('x', pumpX - field.x);
+    pumpLabel.setAttribute('y', pumpY - field.y + 4);
+    pumpLabel.setAttribute('text-anchor', 'middle');
+    pumpLabel.setAttribute('class', 'pump-label');
+    pumpLabel.textContent = 'P';
+    group.appendChild(pumpLabel);
+  }
 
   group.addEventListener('click', () => {
     const tx = appState.transformers.find((item) => item.fieldId === field.id);
@@ -748,7 +795,7 @@ function createConnection(fromX, fromY, toX, toY, status) {
 }
 
 function updateLocationInfo() {
-  ui.locationTitle.textContent = `${appState.village.toUpperCase()} RURAL ELECTRICAL NETWORK`;
+  ui.locationTitle.textContent = `${appState.village.toUpperCase()} RURAL TECHNOLOGY DASHBOARD`;
   const meta = `Mandal: ${appState.mandal} • District: ${appState.district} • State: ${appState.state} • Location: ${appState.locationName} • GPS: ${appState.latitude}, ${appState.longitude}`;
   ui.locationTitle.setAttribute('title', meta);
 }
@@ -762,7 +809,7 @@ function updateDashboard() {
   ui.summaryOffline.textContent = String(offline);
   ui.summaryFault.textContent = String(fault);
   ui.summaryFields.textContent = String(appState.fields.length);
-  ui.summaryMotors.textContent = String(online);
+  ui.summaryMotors.textContent = String(appState.motorCount);
 
   const statusText = appState.mainTransformer.status === 'online' ? 'ONLINE' : 'OFFLINE';
   const healthText = appState.mainTransformer.status === 'online' && fault === 0 ? 'HEALTHY' : fault > 0 ? 'WARNING' : 'OFFLINE';

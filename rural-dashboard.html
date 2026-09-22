@@ -3,8 +3,93 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Mandal electricity monitoring dashboard for government field employees.">
+  <title>Rural Electricity Monitoring | Integrated Current Systems</title>
+  <link rel="stylesheet" href="monitoring.css">
+  <script>
+    if (sessionStorage.getItem('isLoggedIn') !== 'true') window.location.href = 'index.html';
+  </script>
+  <script src="monitoring.js" defer></script>
+</head>
+<body>
+  <div class="monitoring-shell">
+    <header class="app-header">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">IC</div>
+        <div><p class="kicker">Mandal electricity control room</p><h1>Rural monitoring</h1></div>
+      </div>
+      <div class="header-actions">
+        <span class="live-indicator"><i></i> Live sensor feed</span>
+        <button id="refreshFeed" class="icon-button" type="button" title="Refresh sensor feed" aria-label="Refresh sensor feed">&#8635;</button>
+        <a class="text-button" href="location.html">Change mandal</a>
+        <a class="text-button" href="index.html" onclick="sessionStorage.removeItem('isLoggedIn')">Sign out</a>
+      </div>
+    </header>
+
+    <section class="context-bar" aria-label="Current area">
+      <div><span class="context-label">Mandal</span><strong id="mandalName">Ramakuppam</strong><span class="context-muted"> / Chittoor district</span></div>
+      <div class="employee-chip"><span class="avatar">AR</span><span><small>Signed in as</small><strong id="employeeName">A. Ravi Kumar</strong></span><span class="online-dot"></span></div>
+    </section>
+
+    <section class="summary-strip" aria-label="Mandal status summary">
+      <article class="summary-tile"><span class="summary-icon blue">&#9679;</span><div><span>Total villages</span><strong id="totalVillages">24</strong></div></article>
+      <article class="summary-tile"><span class="summary-icon green">&#10003;</span><div><span>Normal villages</span><strong id="normalVillages">0</strong></div></article>
+      <article class="summary-tile"><span class="summary-icon red">&#9889;</span><div><span>Power failures</span><strong id="powerFailures">0</strong></div></article>
+      <article class="summary-tile"><span class="summary-icon yellow">&#9888;</span><div><span>Transformer problems</span><strong id="transformerProblems">0</strong></div></article>
+      <article class="summary-tile"><span class="summary-icon purple">&#8635;</span><div><span>Active repairs</span><strong id="activeRepairs">0</strong></div></article>
+    </section>
+
+    <main class="dashboard-grid">
+      <aside class="left-rail">
+        <section class="panel hierarchy-panel">
+          <div class="panel-heading"><div><p class="kicker">Service structure</p><h2>Assigned area</h2></div><span class="count-badge">5 substations</span></div>
+          <div id="hierarchy" class="hierarchy"></div>
+        </section>
+        <section class="panel employee-panel">
+          <div class="panel-heading"><div><p class="kicker">Field team</p><h2>Substation staff</h2></div></div>
+          <div id="employeeList" class="employee-list"></div>
+        </section>
+      </aside>
+
+      <section class="center-column">
+        <section class="panel map-panel">
+          <div class="panel-heading map-heading">
+            <div><p class="kicker">Affected area map</p><h2>Village electricity status</h2><p class="panel-note">Select a marker to view poles, transformers, lights, and reported issues.</p></div>
+            <div class="map-tools"><label class="search-field"><span aria-hidden="true">&#128269;</span><input id="villageSearch" type="search" placeholder="Search villages"></label><button id="addVillage" class="primary-button" type="button">+ Add village</button></div>
+          </div>
+          <div class="map-legend"><span><i class="legend-dot normal"></i>Normal</span><span><i class="legend-dot failure"></i>Power failure</span><span><i class="legend-dot warning"></i>Warning</span><span><i class="legend-dot repair"></i>Repair in progress</span></div>
+          <div id="villageMap" class="village-map" aria-label="Village electricity status map"></div>
+        </section>
+        <section class="panel updates-panel">
+          <div class="panel-heading"><div><p class="kicker">Sensor stream</p><h2>Latest problem updates</h2></div><button id="viewAllUpdates" class="text-button" type="button">View all</button></div>
+          <div id="sensorUpdates" class="updates-list"></div>
+        </section>
+      </section>
+
+      <aside class="right-rail">
+        <section id="villageDetail" class="panel detail-panel" aria-live="polite"></section>
+        <section class="panel add-panel" id="addPanel" hidden>
+          <div class="panel-heading"><div><p class="kicker">Village register</p><h2>Add village</h2></div><button id="closeAddVillage" class="close-button" type="button" aria-label="Close">&times;</button></div>
+          <form id="villageForm" class="village-form">
+            <label class="field"><span>Village name</span><input name="name" required placeholder="e.g. Kothapalli"></label>
+            <label class="field"><span>Assigned substation</span><select name="substation" id="substationSelect"></select></label>
+            <label class="field"><span>Electricity poles</span><input name="poles" type="number" min="1" value="24" required></label>
+            <label class="field"><span>Transformer details</span><input name="transformer" required value="TX-NEW-01"></label>
+            <button class="primary-button" type="submit">Add village details</button>
+          </form>
+        </section>
+      </aside>
+    </main>
+  </div>
+</body>
+</html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Rural transformer and village electricity activities.">
-  <title>Rural electricity activities | Integrated Current Systems</title>
+  <title>Rural Technology Dashboard | Integrated Current Systems</title>
   <link rel="stylesheet" href="style.css">
   <script src="script.js" defer></script>
 </head>
@@ -17,37 +102,35 @@
       <div class="brand-block">
         <div class="logo-mark" aria-hidden="true">IC</div>
         <div class="title-stack">
-          <h1 id="locationTitle">RURAL ELECTRICAL NETWORK</h1>
-          <p>Transformer and village electricity activities</p>
+          <h1 id="locationTitle">RURAL TECHNOLOGY DASHBOARD</h1>
+          <p>Fields, water and electricity at a glance</p>
         </div>
       </div>
       <div class="top-controls">
         <span class="mode-pill">Supply <strong id="mainStatusLabel" class="value status-badge success">ONLINE</strong></span>
         <span class="mode-pill">Health <strong id="systemHealth" class="value status-badge success">HEALTHY</strong></span>
         <button class="mode-pill" id="toggleDayNight" type="button">NIGHT MODE</button>
-        <a class="ghost-button" href="location.html">Change location</a>
+        <a class="ghost-button" id="nextVillage" href="location.html">Next village</a>
         <a class="ghost-button" href="index.html" onclick="sessionStorage.removeItem('isLoggedIn')">Sign out</a>
       </div>
     </header>
 
     <aside class="sidebar">
-      <section id="transformer-activities" class="panel">
+      <section id="transformer-activities" class="panel setup-panel">
         <div class="panel-header">
-          <h3>Transformer activities</h3>
+          <p class="eyebrow">Village setup</p>
+          <h3>Create your village view</h3>
         </div>
         <div class="form-body">
-          <p class="subtext">Select a transformer on the network to switch it, inspect its status, or simulate a fault.</p>
-          <div class="config-grid">
-            <label class="field"><span>Village</span><input name="village" value="Ramakuppam" form="configForm"></label>
-            <label class="field"><span>Mandal</span><input name="mandal" value="Ramakuppam" form="configForm"></label>
-            <label class="field"><span>District</span><input name="district" value="Chittoor" form="configForm"></label>
-            <label class="field"><span>State</span><input name="state" value="Andhra Pradesh" form="configForm"></label>
-            <label class="field"><span>Location name</span><input name="locationName" value="Rural Agricultural Area" form="configForm"></label>
-            <label class="field"><span>Transformer count</span><input name="transformerCount" type="number" value="20" form="configForm"></label>
-            <label class="field"><span>Field count</span><input name="fieldCount" type="number" value="20" form="configForm"></label>
-            <label class="field"><span>Main transformer</span><input name="mainTransformer" value="MAIN-TX-01" form="configForm"></label>
-          </div>
-          <button class="primary-button wide-button" type="submit" form="configForm">Update transformer network</button>
+          <p class="subtext">Add four simple details and the village network will animate below.</p>
+          <form id="dashboardSetup" class="config-grid">
+            <label class="field"><span>Rural village name</span><input name="village" value="Ramakuppam" required></label>
+            <label class="field"><span>Number of transformers</span><input name="transformerCount" type="number" min="1" max="40" value="6" required></label>
+            <label class="field"><span>Number of electricity poles</span><input name="poleCount" type="number" min="1" max="80" value="18" required></label>
+            <label class="field"><span>Borewells / motor pumps</span><input name="motorCount" type="number" min="0" max="40" value="8" required></label>
+            <label class="field"><span>Agricultural fields</span><input name="fieldCount" type="number" min="1" max="40" value="12" required></label>
+            <button class="primary-button wide-button" type="submit">Generate village dashboard</button>
+          </form>
         </div>
       </section>
 
@@ -72,8 +155,8 @@
         <div class="panel-header">
           <div class="network-toolbar">
             <div>
-              <h3>Live rural network</h3>
-              <p class="subtext">Click a transformer, field, or main transformer to open its activity controls.</p>
+              <h3>Village at a glance</h3>
+              <p class="subtext">Animated water flow feeds the fields while power moves through every pole and transformer.</p>
             </div>
             <div class="zoom-controls">
               <button id="zoomOut" type="button" aria-label="Zoom out">-</button>
@@ -102,8 +185,8 @@
       </section>
 
       <section class="monitor-grid">
-        <article class="monitor-panel"><div class="panel-header"><h3>Village overview</h3></div><div id="villageOverview" class="metric-grid"></div></article>
-        <article class="monitor-panel"><div class="panel-header"><h3>Electrical supply</h3></div><div id="electricalMetrics" class="metric-grid"></div></article>
+        <article class="monitor-panel"><div class="panel-header"><p class="eyebrow">01</p><h3>Rural fields</h3></div><div id="villageOverview" class="metric-grid"></div></article>
+        <article class="monitor-panel"><div class="panel-header"><p class="eyebrow">02</p><h3>Rural electricity</h3></div><div id="electricalMetrics" class="metric-grid"></div></article>
         <article class="monitor-panel"><div class="panel-header"><h3>Poles and lights</h3></div><div id="poleMetrics" class="metric-grid"></div><div id="lightMetrics" class="metric-grid"></div></article>
         <article class="monitor-panel energy-panel"><div class="panel-header"><h3>Energy activity</h3></div><div id="energyMetrics" class="metric-grid"></div></article>
       </section>
