@@ -1,0 +1,10 @@
+{
+  "name": "integrated-current-systems",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Fieldmark land marketplace and rural technology dashboard",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test"
+  }
+}

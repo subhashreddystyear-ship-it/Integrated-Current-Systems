@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Property details, land features and owner contact information.">
+  <title>Land details | Fieldmark</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="marketplace.css">
+  <script src="marketplace.js" defer></script>
+</head>
+<body class="details-page">
+  <header class="site-header">
+    <a class="wordmark" href="/"><span class="brand-glyph" aria-hidden="true">F</span><span>fieldmark</span></a>
+    <a class="back-to-listings" href="/">← <span>Back to land listings</span></a>
+    <nav class="header-actions" aria-label="Account actions"><button class="nav-action" type="button" data-view="favorites"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 8.8c0 5-8.8 10-8.8 10s-8.8-5-8.8-10A4.8 4.8 0 0 1 12 6.5a4.8 4.8 0 0 1 8.8 2.3Z"></path></svg><span>Saved</span></button><button class="nav-action" type="button" data-view="listings"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5h16v13H4z"></path><path d="M8 9h8M8 12h8M8 15h5"></path></svg><span>My listings</span></button><button class="nav-action" type="button" data-view="requests"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H8l-4 3V5Z"></path><path d="M8 9h8M8 12h5"></path></svg><span>Requests</span></button><button class="nav-action" type="button" data-view="inbox" aria-label="Messages and notifications"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 9a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9ZM10 21h4"></path></svg><span>Inbox</span></button><button id="accountButton" class="account-button" type="button">Sign in</button><button id="postLandButton" class="post-button" type="button"><span aria-hidden="true">＋</span> Post land</button></nav>
+  </header>
+  <main id="propertyDetails" class="details-main"><div class="loading-state">Opening property details…</div></main>
+  <footer class="site-footer"><a class="wordmark" href="/"><span class="brand-glyph" aria-hidden="true">F</span><span>fieldmark</span></a><span>Land decisions, made more human.</span><a href="index.html">Account sign in</a></footer>
+
+  <dialog id="authDialog" class="modal-dialog">
+    <form method="dialog" class="dialog-dismiss"><button class="close-button" aria-label="Close">×</button></form>
+    <div class="dialog-content"><p class="eyebrow">Your Fieldmark account</p><h2 id="authTitle">Welcome back.</h2><p id="authSubtitle" class="dialog-subtitle">Sign in to save land and contact owners.</p><form id="authForm" class="stack-form"><label id="authNameField" hidden>Your name<input name="name" autocomplete="name" type="text"></label><label>Email address<input name="email" autocomplete="email" type="email" required></label><label>Password<input name="password" autocomplete="current-password" type="password" minlength="8" required></label><button id="authSubmit" class="primary-button" type="submit">Sign in</button><p id="authStatus" class="form-status" role="status"></p></form><button id="authModeToggle" class="text-button auth-switch" type="button">New here? Create an account</button></div>
+  </dialog>
+  <dialog id="workspaceDialog" class="modal-dialog wide-dialog">
+    <form method="dialog" class="dialog-dismiss"><button class="close-button" aria-label="Close">×</button></form>
+    <div class="dialog-content"><p class="eyebrow">Your account</p><h2 id="workspaceTitle">Saved land</h2><div id="workspaceContent" class="workspace-content"></div></div>
+  </dialog>
+  <dialog id="actionDialog" class="modal-dialog">
+    <form method="dialog" class="dialog-dismiss"><button class="close-button" aria-label="Close">×</button></form>
+    <div id="actionContent" class="dialog-content"></div>
+  </dialog>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

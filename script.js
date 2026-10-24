@@ -1,7 +1,3 @@
-if (sessionStorage.getItem('isLoggedIn') !== 'true') {
-  window.location.href = 'index.html';
-}
-
 const appState = {
   village: 'Ramakuppam',
   mandal: 'Ramakuppam',
@@ -53,10 +49,15 @@ const transformerOwners = [
 
 const ui = {};
 
-document.addEventListener('DOMContentLoaded', initializeApp);
+document.addEventListener('DOMContentLoaded', async () => {
+  const user = await window.requireAuth();
+  if (user) initializeApp(user);
+});
 
-function initializeApp() {
+function initializeApp(user) {
+  appState.userRole = user.role;
   cacheUi();
+  document.querySelector('#current-user-role').textContent = user.role;
   bindEvents();
   bindWelcomeEvents();
   loadSelectedLocation();
@@ -110,6 +111,9 @@ function cacheUi() {
   ui.summaryFault = document.getElementById('summaryFault');
   ui.summaryFields = document.getElementById('summaryFields');
   ui.summaryMotors = document.getElementById('summaryMotors');
+  ui.summaryBorewells = document.getElementById('summaryBorewells');
+  ui.statusTransformers = document.getElementById('statusTransformers');
+  ui.statusMotors = document.getElementById('statusMotors');
   ui.villageOverview = document.getElementById('villageOverview');
   ui.electricalMetrics = document.getElementById('electricalMetrics');
   ui.poleMetrics = document.getElementById('poleMetrics');
@@ -131,9 +135,35 @@ function cacheUi() {
   ui.description = document.getElementById('shutdownDescription');
   ui.cancelShutdown = document.getElementById('cancelShutdown');
   ui.confirmShutdown = document.getElementById('confirmShutdown');
+  document.querySelectorAll('.role-switch button').forEach((button) => {
+    button.addEventListener('click', () => {
+      document.querySelectorAll('.role-switch button').forEach((item) => item.classList.toggle('active', item === button));
+    });
+  });
 }
 
 function bindEvents() {
+  const sectionButtons = document.querySelectorAll('[data-app-section]');
+  const fieldmarkView = document.getElementById('fieldmarkView');
+  const fieldmarkFrame = document.getElementById('fieldmarkFrame');
+
+  sectionButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+      const showFieldmark = button.dataset.appSection === 'fieldmark';
+      ui.appShell.classList.toggle('fieldmark-active', showFieldmark);
+      fieldmarkView.hidden = !showFieldmark;
+      sectionButtons.forEach((sectionButton) => {
+        const isActive = sectionButton === button;
+        sectionButton.classList.toggle('active', isActive);
+        sectionButton.setAttribute('aria-pressed', String(isActive));
+      });
+
+      if (showFieldmark && !fieldmarkFrame.hasAttribute('src')) {
+        fieldmarkFrame.src = fieldmarkFrame.dataset.src;
+      }
+    });
+  });
+
   document.querySelector('[data-open-dashboard="transformer"]')?.addEventListener('click', () => {
     ui.dashboardLauncher.classList.add('hidden');
     ui.welcomeScreen.classList.add('hidden');
@@ -213,6 +243,7 @@ function bindEvents() {
   ui.nextVillage?.addEventListener('click', () => {
     sessionStorage.removeItem('smartRuralLocation');
   });
+  document.querySelector('#sign-out-button')?.addEventListener('click', window.signOut);
   ui.zoomIn.addEventListener('click', () => setZoom(1.15));
   ui.zoomOut.addEventListener('click', () => setZoom(0.85));
   ui.resetView.addEventListener('click', () => {
@@ -810,6 +841,9 @@ function updateDashboard() {
   ui.summaryFault.textContent = String(fault);
   ui.summaryFields.textContent = String(appState.fields.length);
   ui.summaryMotors.textContent = String(appState.motorCount);
+  if (ui.summaryBorewells) ui.summaryBorewells.textContent = String(appState.motorCount);
+  if (ui.statusTransformers) ui.statusTransformers.textContent = `● ${online} / ${appState.transformers.length} ON`;
+  if (ui.statusMotors) ui.statusMotors.textContent = `● ${Math.max(0, appState.motorCount - fault)} / ${appState.motorCount} ACTIVE`;
 
   const statusText = appState.mainTransformer.status === 'online' ? 'ONLINE' : 'OFFLINE';
   const healthText = appState.mainTransformer.status === 'online' && fault === 0 ? 'HEALTHY' : fault > 0 ? 'WARNING' : 'OFFLINE';

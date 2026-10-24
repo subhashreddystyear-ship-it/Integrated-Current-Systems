@@ -22,7 +22,7 @@ fields.forEach(({ input, error }) => {
   });
 });
 
-signupForm.addEventListener('submit', (event) => {
+signupForm.addEventListener('submit', async (event) => {
   event.preventDefault();
   let isValid = true;
 
@@ -40,10 +40,27 @@ signupForm.addEventListener('submit', (event) => {
 
   if (!isValid) return;
 
-  submitButton.classList.add('is-success');
-  submitButton.querySelector('.button-label').textContent = 'Your workspace is ready';
-  statusMessage.textContent = 'Account created successfully.';
-  window.setTimeout(() => {
-    window.location.href = 'location.html';
-  }, 700);
+  submitButton.disabled = true;
+  statusMessage.textContent = 'Creating your account...';
+  try {
+    const response = await fetch('/api/auth/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'same-origin',
+      body: JSON.stringify({
+        name: `${firstNameInput.value.trim()} ${lastNameInput.value.trim()}`,
+        email: emailInput.value,
+        password: passwordInput.value
+      })
+    });
+    const result = await response.json();
+    if (!response.ok) throw new Error(result.error || 'Unable to create the account.');
+    submitButton.classList.add('is-success');
+    submitButton.querySelector('.button-label').textContent = 'Your workspace is ready';
+    statusMessage.textContent = 'Account created successfully.';
+    window.setTimeout(() => window.location.replace('rural-dashboard.html'), 300);
+  } catch (error) {
+    statusMessage.textContent = error.message;
+    submitButton.disabled = false;
+  }
 });

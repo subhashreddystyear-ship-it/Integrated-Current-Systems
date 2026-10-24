@@ -1,7 +1,3 @@
-if (sessionStorage.getItem('isLoggedIn') !== 'true') {
-  window.location.href = 'index.html';
-}
-
 const locationForm = document.querySelector('#location-form');
 const selects = [...locationForm.querySelectorAll('select')];
 const stationButtons = [...document.querySelectorAll('.substation-item')];
@@ -15,7 +11,6 @@ const backButton = document.querySelector('#back-button');
 const signOutButton = document.querySelector('#sign-out-button');
 
 backButton.addEventListener('click', () => {
-  sessionStorage.removeItem('isLoggedIn');
   if (window.history.length > 1) {
     window.history.back();
     return;
@@ -24,9 +19,10 @@ backButton.addEventListener('click', () => {
 });
 
 signOutButton.addEventListener('click', () => {
-  sessionStorage.removeItem('isLoggedIn');
-  window.location.href = 'index.html';
+  window.signOut();
 });
+
+window.requireAuth();
 
 selects.forEach((select, index) => {
   select.addEventListener('change', () => {

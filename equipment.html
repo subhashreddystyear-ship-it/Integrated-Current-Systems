@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Find and share useful equipment with people nearby.">
+  <title>Equipment Share | Integrated Current Systems</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+  <link rel="stylesheet" href="equipment.css">
+  <script src="auth-client.js" defer></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="" defer></script>
+  <script src="equipment.js" defer></script>
+</head>
+<body>
+  <header class="share-header">
+    <a class="share-brand" href="rural-dashboard.html"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span><span>Village Equipment Share</span></a>
+    <nav class="share-nav" aria-label="Equipment sharing" role="tablist">
+      <button class="share-tab active" type="button" data-view="discover" role="tab" aria-selected="true">Nearby</button>
+      <button class="share-tab" type="button" data-view="post" role="tab" aria-selected="false">Post an item</button>
+      <button class="share-tab" type="button" data-view="listings" role="tab" aria-selected="false">My listings</button>
+      <button class="share-tab" type="button" data-view="bookings" role="tab" aria-selected="false">My bookings</button>
+      <button class="share-tab" type="button" data-view="requests" role="tab" aria-selected="false">Requests</button>
+      <button class="share-tab" type="button" data-view="history" role="tab" aria-selected="false">History</button>
+      <button class="share-tab" type="button" data-view="notifications" role="tab" aria-selected="false">Notifications <span id="notificationCount" class="notification-count" hidden>0</span></button>
+    </nav>
+    <div class="header-user"><span id="signedInName"></span><button id="signOut" class="quiet-button" type="button" aria-label="Sign out">Sign out</button></div>
+  </header>
+
+  <main class="share-main">
+    <section class="page-heading">
+      <div><p class="kicker">LOCAL TOOLS, SHARED WELL</p><h1 id="viewTitle">Equipment around you</h1></div>
+      <button class="primary-button" type="button" data-go-view="post"><span aria-hidden="true">＋</span> Post equipment</button>
+    </section>
+
+    <section class="view-panel" data-panel="discover">
+      <div class="location-tools">
+        <div class="location-entry">
+          <label for="placeSearch">Find a village or place</label>
+          <div class="input-action"><input id="placeSearch" type="search" placeholder="Search a real place"><button id="searchPlace" class="secondary-button" type="button">Locate</button></div>
+        </div>
+        <button id="useGps" class="secondary-button gps-button" type="button"><span aria-hidden="true">⌖</span> Use my location</button>
+        <label class="coordinate-field" for="searchLatitude">Latitude<input id="searchLatitude" type="number" min="-90" max="90" step="any" placeholder="13.0827"></label>
+        <label class="coordinate-field" for="searchLongitude">Longitude<input id="searchLongitude" type="number" min="-180" max="180" step="any" placeholder="80.2707"></label>
+        <button id="applyCoordinates" class="secondary-button coordinate-submit" type="button">Update area</button>
+      </div>
+      <form id="searchFilters" class="search-filters">
+        <label>Within<select name="radius"><option value="1">1 km</option><option value="5" selected>5 km</option><option value="10">10 km</option><option value="20">20 km</option></select></label>
+        <label>Category<select name="category"><option value="">All equipment</option><option>Agriculture</option><option>Construction</option><option>Daily use</option><option>Other</option></select></label>
+        <label>Max price<input name="maxPrice" type="number" min="1" step="1" placeholder="Any price"></label>
+        <label>Available from<input name="from" type="datetime-local"></label>
+        <label>Available until<input name="until" type="datetime-local"></label>
+        <button class="filter-submit" type="submit">Apply filters</button>
+        <p id="locationStatus" class="location-status" role="status">Allow location access or enter a place or coordinates to see nearby items.</p>
+      </form>
+      <div class="discovery-layout">
+        <section class="map-section" aria-label="Nearby equipment map">
+          <div class="map-heading"><div><p class="kicker">LIVE MAP</p><h2>Nearby equipment</h2></div><span id="mapResultCount">Waiting for location</span></div>
+          <div id="equipmentMap" class="equipment-map" aria-label="Map of nearby equipment"></div>
+          <p class="map-credit">Map data © OpenStreetMap contributors</p>
+        </section>
+        <section class="results-section" aria-label="Nearby listings">
+          <div class="results-heading"><h2>Available nearby</h2><span id="resultCount">0 items</span></div>
+          <div id="nearbyListings" class="equipment-list" aria-live="polite"><p class="empty-state">Choose a location to discover equipment shared nearby.</p></div>
+        </section>
+      </div>
+    </section>
+
+    <section class="view-panel" data-panel="post" hidden>
+      <div class="section-intro"><p class="kicker">GIVE GOOD TOOLS ANOTHER JOB</p><h2>Post equipment</h2><p>Share accurate availability and a map point so nearby people can find your item.</p></div>
+      <form id="equipmentForm" class="equipment-form">
+        <label>Product name<input name="name" maxlength="120" required placeholder="e.g. 5 HP water pump"></label>
+        <label>Category<select name="category" required><option value="">Choose category</option><option>Agriculture</option><option>Construction</option><option>Daily use</option><option>Other</option></select></label>
+        <label>Condition<select name="condition" required><option value="">Choose condition</option><option>New</option><option>Good</option><option>Fair</option><option>Needs repair</option></select></label>
+        <label>Rental price<input name="price" type="number" min="1" max="10000000" step="0.01" required placeholder="500"></label>
+        <label>Price unit<select name="price_unit" required><option value="hour">Per hour</option><option value="day">Per day</option></select></label>
+        <label>Village, town or city<input name="locality" maxlength="160" required placeholder="Village or town"></label>
+        <label>Available from<input name="available_from" type="datetime-local" required></label>
+        <label>Available until / return by<input name="available_until" type="datetime-local" required></label>
+        <label>Owner contact number<input name="owner_phone" type="tel" maxlength="30" placeholder="Optional until booking is accepted"></label>
+        <label class="form-wide">Description<textarea name="description" rows="4" maxlength="2000" required placeholder="Useful details, included attachments, pickup arrangements…"></textarea></label>
+        <label class="form-wide photo-field">Product photos <small>Up to 5 photos. Images are resized before upload.</small><input id="equipmentPhotos" type="file" accept="image/jpeg,image/png,image/webp" multiple required></label>
+        <div id="photoPreview" class="photo-preview form-wide" aria-live="polite"></div>
+        <div class="location-picker form-wide"><div><h3>Item location</h3><p>The map point is visible to signed-in community members. Contact details are shared only after a booking is accepted.</p></div><button id="listingGps" class="secondary-button" type="button">Use my location</button>
+          <label>Latitude<input name="latitude" type="number" min="-90" max="90" step="any" required placeholder="13.0827"></label><label>Longitude<input name="longitude" type="number" min="-180" max="180" step="any" required placeholder="80.2707"></label>
+        </div>
+        <p id="postStatus" class="form-status form-wide" role="status"></p>
+        <div class="form-actions form-wide"><button class="primary-button" type="submit">Publish equipment</button></div>
+      </form>
+    </section>
+
+    <section class="view-panel" data-panel="listings" hidden><div class="section-intro"><p class="kicker">YOUR EQUIPMENT</p><h2>My listings</h2></div><div id="myListings" class="listing-grid"></div></section>
+    <section class="view-panel" data-panel="bookings" hidden><div class="section-intro"><p class="kicker">YOUR RENTALS</p><h2>My bookings</h2></div><div id="myBookings" class="booking-list"></div></section>
+    <section class="view-panel" data-panel="requests" hidden><div class="section-intro"><p class="kicker">OWNER INBOX</p><h2>Booking requests</h2></div><div id="bookingRequests" class="booking-list"></div></section>
+    <section class="view-panel" data-panel="history" hidden><div class="section-intro"><p class="kicker">PAST RENTALS</p><h2>Booking history</h2></div><div id="bookingHistory" class="booking-list"></div></section>
+    <section class="view-panel" data-panel="notifications" hidden><div class="section-intro"><p class="kicker">UPDATES</p><h2>Notifications</h2></div><div id="notifications" class="notification-list"></div></section>
+  </main>
+
+  <dialog id="bookingDialog" class="booking-dialog">
+    <form id="bookingForm" class="dialog-form">
+      <button class="dialog-close" type="button" data-close-dialog aria-label="Close">×</button>
+      <p class="kicker">RENT FROM YOUR COMMUNITY</p><h2 id="bookingItemName">Book equipment</h2><p id="bookingWindow" class="dialog-note"></p>
+      <input name="listing_id" type="hidden">
+      <label>Start time<input name="starts_at" type="datetime-local" required></label>
+      <label>Return by<input name="ends_at" type="datetime-local" required></label>
+      <p id="bookingPrice" class="booking-price">Estimated total: ₹0</p>
+      <p id="bookingStatus" class="form-status" role="status"></p>
+      <button class="primary-button" type="submit">Send booking request</button>
+    </form>
+  </dialog>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

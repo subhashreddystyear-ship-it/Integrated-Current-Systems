@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Discover verified land for sale and exchange across South India.">
+  <title>Fieldmark | Land marketplace</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="marketplace.css">
+  <script src="marketplace.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="wordmark" href="/" target="_top" aria-label="Fieldmark home"><span class="brand-glyph" aria-hidden="true">F</span><span>fieldmark</span></a>
+    <form id="quickSearch" class="quick-search" role="search">
+      <label class="location-search"><span class="sr-only">Location</span><span aria-hidden="true">⌖</span><input id="quickLocation" type="search" placeholder="City, district or state"></label>
+      <span class="search-divider" aria-hidden="true"></span>
+      <label class="keyword-search"><span class="sr-only">Search land</span><input id="quickKeyword" type="search" placeholder="Try ‘orchard land’ or ‘roadside plot’"></label>
+      <button class="icon-button search-submit" type="submit" aria-label="Search listings"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"></circle><path d="m16 16 4.4 4.4"></path></svg></button>
+    </form>
+    <nav class="header-actions" aria-label="Account and listing actions">
+      <button class="nav-action" type="button" data-view="favorites"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 8.8c0 5-8.8 10-8.8 10s-8.8-5-8.8-10A4.8 4.8 0 0 1 12 6.5a4.8 4.8 0 0 1 8.8 2.3Z"></path></svg><span>Saved</span></button>
+      <button class="nav-action" type="button" data-view="listings"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5h16v13H4z"></path><path d="M8 9h8M8 12h8M8 15h5"></path></svg><span>My listings</span></button>
+      <button class="nav-action" type="button" data-view="requests"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H8l-4 3V5Z"></path><path d="M8 9h8M8 12h5"></path></svg><span>Requests</span></button>
+      <button class="nav-action" type="button" data-view="inbox" aria-label="Messages and notifications"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 9a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9ZM10 21h4"></path></svg><span>Inbox</span></button>
+      <button id="accountButton" class="account-button" type="button">Sign in</button>
+      <button id="postLandButton" class="post-button" type="button"><span aria-hidden="true">＋</span> Post land</button>
+    </nav>
+  </header>
+
+  <main class="market-main">
+    <section class="market-intro" aria-labelledby="marketTitle">
+      <div>
+        <p class="eyebrow"><span class="eyebrow-mark"></span> Land across South India</p>
+        <h1 id="marketTitle">Find ground for<br><span>what comes next.</span></h1>
+      </div>
+      <p class="intro-note">Good land has a story. Browse owner-listed farms, plots and places to grow, or find a thoughtful exchange.</p>
+    </section>
+
+    <section class="filter-bar" aria-label="Property filters">
+      <button id="mobileFilterButton" class="filter-toggle" type="button" aria-expanded="false" aria-controls="filterPanel"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M7 12h10m-7 6h4"></path></svg> Filters <span id="activeFilterCount" class="filter-count">0</span></button>
+      <div class="filter-chips" id="quickFilters">
+        <button class="quick-filter" type="button" data-quick-filter="sale">For sale</button>
+        <button class="quick-filter" type="button" data-quick-filter="exchange">Open to exchange</button>
+        <button class="quick-filter" type="button" data-quick-filter="road">Road access</button>
+        <button class="quick-filter" type="button" data-quick-filter="water">Water available</button>
+      </div>
+      <label class="sort-control"><span>Sort</span><select id="sortListings" aria-label="Sort listings"><option value="newest">Newest first</option><option value="price_asc">Price: low to high</option><option value="price_desc">Price: high to low</option><option value="area_asc">Area: small to large</option><option value="area_desc">Area: large to small</option></select></label>
+    </section>
+
+    <div class="market-layout">
+      <aside id="filterPanel" class="filter-panel" aria-label="Filter properties">
+        <div class="filter-heading"><h2>Refine your search</h2><button id="clearFilters" class="text-button" type="button">Clear all</button></div>
+        <form id="filterForm">
+          <label class="filter-field"><span>State</span><select name="state"><option value="">All South India</option></select></label>
+          <label class="filter-field"><span>District</span><select name="district"><option value="">All districts</option></select></label>
+          <label class="filter-field"><span>Location</span><input name="location" type="search" placeholder="Village, town or district"></label>
+          <fieldset class="range-field"><legend>Price range</legend><div><label><span class="sr-only">Minimum price</span><input name="minPrice" inputmode="numeric" type="number" min="0" placeholder="Min ₹"></label><span aria-hidden="true">–</span><label><span class="sr-only">Maximum price</span><input name="maxPrice" inputmode="numeric" type="number" min="0" placeholder="Max ₹"></label></div></fieldset>
+          <fieldset class="range-field"><legend>Land area <small>acres</small></legend><div><label><span class="sr-only">Minimum area</span><input name="minArea" type="number" min="0" step="0.1" placeholder="Min"></label><span aria-hidden="true">–</span><label><span class="sr-only">Maximum area</span><input name="maxArea" type="number" min="0" step="0.1" placeholder="Max"></label></div></fieldset>
+          <label class="filter-field"><span>Land type</span><select name="landType"><option value="">Any type</option></select></label>
+          <label class="filter-field"><span>Listing type</span><select name="saleType"><option value="">Sale or exchange</option><option value="sale">For sale</option><option value="exchange">Available for exchange</option></select></label>
+          <label class="filter-field"><span>Road access</span><select name="roadAccess"><option value="">Any access</option></select></label>
+          <label class="filter-field"><span>Water</span><select name="waterAvailability"><option value="">Any water source</option></select></label>
+          <label class="filter-field"><span>Electricity</span><select name="electricityAvailability"><option value="">Any status</option><option>Available</option><option>Not connected</option></select></label>
+          <button class="apply-filters" type="submit">Show matching land <span aria-hidden="true">→</span></button>
+        </form>
+        <p class="filter-footnote">Listings are shared by landowners. Please verify documents before purchase.</p>
+      </aside>
+
+      <section class="results-section" aria-labelledby="resultsTitle">
+        <div class="results-heading"><div><p class="eyebrow">Made for your next move</p><h2 id="resultsTitle">Land listings <span id="resultCount" class="result-count"></span></h2></div><button id="mobileFilterClose" class="mobile-filter-close" type="button" aria-label="Close filters">×</button></div>
+        <div id="listingsGrid" class="listings-grid" aria-live="polite"><div class="loading-state">Finding land worth a closer look…</div></div>
+        <nav id="pagination" class="pagination" aria-label="Listing pages"></nav>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer"><a class="wordmark" href="/" target="_top"><span class="brand-glyph" aria-hidden="true">F</span><span>fieldmark</span></a><span>Land decisions, made more human.</span><a href="index.html" target="_top">Account sign in</a></footer>
+
+  <dialog id="authDialog" class="modal-dialog">
+    <form method="dialog" class="dialog-dismiss"><button class="close-button" aria-label="Close">×</button></form>
+    <div class="dialog-content"><p class="eyebrow">Your Fieldmark account</p><h2 id="authTitle">Welcome back.</h2><p id="authSubtitle" class="dialog-subtitle">Sign in to save land and contact owners.</p>
+      <form id="authForm" class="stack-form">
+        <label id="authNameField" hidden>Your name<input name="name" autocomplete="name" type="text"></label>
+        <label>Email address<input name="email" autocomplete="email" type="email" required></label>
+        <label>Password<input name="password" autocomplete="current-password" type="password" minlength="8" required></label>
+        <button id="authSubmit" class="primary-button" type="submit">Sign in</button><p id="authStatus" class="form-status" role="status"></p>
+      </form>
+      <button id="authModeToggle" class="text-button auth-switch" type="button">New here? Create an account</button>
+    </div>
+  </dialog>
+
+  <dialog id="listingDialog" class="modal-dialog wide-dialog">
+    <form method="dialog" class="dialog-dismiss"><button class="close-button" aria-label="Close">×</button></form>
+    <div class="dialog-content"><p class="eyebrow">Owner listing</p><h2 id="listingDialogTitle">Tell us about your land.</h2><p class="dialog-subtitle">A few useful details help the right people find it.</p>
+      <form id="listingForm" class="listing-form">
+        <input name="listingId" type="hidden">
+        <label class="full-field">Property title<input name="title" required maxlength="120" placeholder="e.g. Irrigated orchard land near Chittoor"></label>
+        <label>State<select name="state" required><option value="">Choose state</option><option>Andhra Pradesh</option><option>Telangana</option><option>Karnataka</option><option>Tamil Nadu</option><option>Kerala</option></select></label>
+        <label>District<input name="district" required></label><label>Village or town<input name="location" required></label><label>General location<input name="exact_location" placeholder="Nearby landmark or area"></label>
+        <label>Land area<input name="area" type="number" min="0.01" step="0.01" required></label><label>Area unit<select name="area_unit"><option>acre</option><option>cent</option><option>gunta</option><option>sq.ft</option></select></label>
+        <label>Asking price (₹)<input name="price" type="number" min="1" required></label><label>Land type<select name="land_type" required><option>Agricultural</option><option>Residential</option><option>Farm land</option><option>Commercial</option><option>Plantation</option></select></label>
+        <label>Road access<select name="road_access" required><option>Paved road</option><option>Village road</option><option>Seasonal road</option><option>Highway frontage</option><option>No direct access</option></select></label><label>Road width<input name="road_width" placeholder="e.g. 20 ft"></label>
+        <label>Water availability<select name="water_availability" required><option>Borewell</option><option>Open well</option><option>Canal nearby</option><option>Rain-fed</option><option>Borewell and open well</option><option>No water source</option></select></label><label>Electricity<select name="electricity_availability" required><option>Available</option><option>Not connected</option></select></label>
+        <label>Ownership / documents<select name="ownership_status" required><option>Clear title</option><option>Patta available</option><option>Registered deed</option><option>Documents verified</option><option>Under verification</option></select></label><label>Survey number<input name="survey_number"></label>
+        <label>Distance from main road<input name="distance_main_road" placeholder="e.g. 2 km"></label><label>Distance from town<input name="distance_town" placeholder="e.g. 8 km"></label>
+        <label class="full-field">Nearby facilities<input name="nearby_facilities" placeholder="Schools, markets, hospitals, transit"></label><label class="full-field">Development status<input name="development_status" placeholder="Fenced, levelled, cultivated…"></label>
+        <label>Listing type<select name="sale_type" id="listingSaleType"><option value="sale">For sale</option><option value="exchange">Available for exchange</option></select></label><label>Owner name<input name="owner_name" autocomplete="name" placeholder="Your name"></label><label>Owner phone<input name="owner_phone" type="tel" autocomplete="tel" placeholder="+91"></label>
+        <div id="exchangeFields" class="exchange-fields full-field" hidden><label>Preferred exchange location<input name="exchange_location"></label><label>Preferred land area<input name="exchange_area"></label><label class="full-field">Exchange conditions<textarea name="exchange_conditions" rows="2"></textarea></label></div>
+        <label class="full-field">Property description<textarea name="description" rows="4" required></textarea></label>
+        <label class="full-field photo-upload">Property photos <small>Up to 5 JPG, PNG or WebP photos, compressed before saving.</small><input name="photos" type="file" accept="image/jpeg,image/png,image/webp" multiple></label><div id="photoPreview" class="photo-preview full-field"></div>
+        <div class="form-actions full-field"><button class="secondary-button" type="button" data-close-dialog>Cancel</button><button id="listingSubmit" class="primary-button" type="submit">Publish listing</button></div><p id="listingStatus" class="form-status full-field" role="status"></p>
+      </form>
+    </div>
+  </dialog>
+
+  <dialog id="workspaceDialog" class="modal-dialog wide-dialog">
+    <form method="dialog" class="dialog-dismiss"><button class="close-button" aria-label="Close">×</button></form>
+    <div class="dialog-content"><p class="eyebrow">Your account</p><h2 id="workspaceTitle">Saved land</h2><div id="workspaceContent" class="workspace-content"></div></div>
+  </dialog>
+
+  <dialog id="actionDialog" class="modal-dialog">
+    <form method="dialog" class="dialog-dismiss"><button class="close-button" aria-label="Close">×</button></form>
+    <div id="actionContent" class="dialog-content"></div>
+  </dialog>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

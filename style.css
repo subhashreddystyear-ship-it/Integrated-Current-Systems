@@ -965,7 +965,6 @@ body.day-mode .modal-card {
 @media (max-width: 760px) {
   .dashboard-options { grid-template-columns: 1fr; }
   .dashboard-option { min-height: 130px; }
-}
   .app-shell {
     grid-template-columns: 1fr;
     grid-template-areas: "topbar" "sidebar" "main" "right";
@@ -981,4 +980,111 @@ body.day-mode .modal-card {
   .network-stage, #networkSvg {
     min-height: 520px;
   }
+}
+
+/* Smart rural control room visual layer */
+:root {
+  --bg: #eef0e8;
+  --panel: #fcfcf7;
+  --text: #202823;
+  --muted: #738078;
+  --primary: #3973ff;
+  --green: #2e9b68;
+  --red: #d5524f;
+  --amber: #c58b2a;
+  --line: #d7ded3;
+  --shadow: 0 12px 30px rgba(39, 55, 43, .08);
+}
+
+body.day-mode { background: #eef0e8; color: var(--text); }
+.app-shell { grid-template-columns: 290px minmax(0, 1fr) 306px; gap: 12px; padding: 16px; }
+.sidebar, .main-panel, .right-panel { min-width: 0; }
+.topbar, .panel, .monitor-panel { border-radius: 8px; box-shadow: var(--shadow); border-color: var(--line); }
+.topbar { padding: 13px 16px; background: rgba(252, 252, 247, .92); }
+.logo-mark { width: 42px; height: 42px; border-radius: 8px; background: #202823; color: #d8ed47; box-shadow: none; }
+.title-stack h1 { font-family: "Space Grotesk", sans-serif; font-size: 1.1rem; letter-spacing: -.02em; }
+.title-stack p { color: var(--muted); font-size: .62rem; }
+.top-controls { gap: 7px; }
+.mode-pill, .ghost-button, .primary-button, .filter-button, .action-button { border-radius: 5px; }
+.mode-pill { padding: 7px 9px; color: var(--text); background: #f1f4ec; font-size: .68rem; }
+.ghost-button { padding: 8px 10px; color: var(--text); background: transparent; font-size: .72rem; }
+.primary-button { background: var(--text); color: #e7f255; }
+.role-chip, .live-chip { display: inline-flex; align-items: center; gap: 6px; padding: 7px 8px; color: var(--muted); font-size: .68rem; font-weight: 700; }
+.role-dot, .live-chip span { width: 6px; height: 6px; border-radius: 50%; background: #d8ed47; }
+.live-chip span { background: var(--green); box-shadow: 0 0 0 3px rgba(46, 155, 104, .12); }
+.command-bar, .status-ribbon { grid-column: 1 / -1; }
+.command-bar { display: flex; align-items: end; gap: 12px; padding: 12px 15px; border: 1px solid var(--line); border-radius: 8px; background: #202823; color: #f9fbf4; }
+.command-title { display: grid; gap: 3px; min-width: 190px; margin-right: auto; }
+.section-kicker, .command-bar label span { color: #a9b4a6; font-size: .59rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+.command-bar label { display: grid; gap: 4px; min-width: 142px; font-size: .72rem; }
+.command-bar select { height: 32px; padding: 0 9px; border: 1px solid #455248; border-radius: 4px; color: #f9fbf4; background: #2d3930; font-size: .72rem; }
+.role-switch { display: flex; padding: 3px; border: 1px solid #455248; border-radius: 5px; }
+.role-switch button { padding: 6px 8px; border: 0; border-radius: 3px; color: #a9b4a6; background: transparent; font-size: .64rem; cursor: pointer; }
+.role-switch button.active { color: #202823; background: #d8ed47; font-weight: 800; }
+.status-ribbon { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px; overflow: hidden; border: 1px solid var(--line); border-radius: 8px; background: var(--line); }
+.status-ribbon > div { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 10px 12px; background: var(--panel); }
+.status-ribbon span { color: var(--muted); font-size: .68rem; font-weight: 700; }
+.status-ribbon strong { font-size: .68rem; letter-spacing: .03em; }
+.status-on { color: var(--green); }
+.status-warn { color: var(--amber); }
+.panel { background: rgba(252, 252, 247, .92); }
+.panel-header { padding: 14px 16px 8px; }
+.panel-header h3 { font-family: "Space Grotesk", sans-serif; font-size: .8rem; letter-spacing: .04em; }
+.eyebrow { margin-bottom: 7px; color: var(--primary); font-size: .61rem; }
+.subtext { color: var(--muted); font-size: .73rem; line-height: 1.45; }
+.field input, .field select, .field textarea, .search-box { border-radius: 4px; border-color: var(--line); background: #f4f6ef; color: var(--text); }
+.summary-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px; }
+.summary-card { padding: 10px; border-radius: 5px; border-color: var(--line); background: #f2f5ee; }
+.summary-card .label { margin-bottom: 4px; font-size: .56rem; color: var(--muted); }
+.summary-card .value { font-size: 1.2rem; }
+.summary-card.water .value { color: #2a9bc4; }
+.monitor-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.monitor-panel { background: rgba(252, 252, 247, .92); }
+.metric-grid { gap: 6px; padding: 0 16px; }
+.metric-cell { padding: 8px; border-radius: 4px; border-color: var(--line); background: #f2f5ee; }
+.metric-cell span { color: var(--muted); font-size: .56rem; }
+.metric-cell strong { font-size: .83rem; }
+.network-stage { min-height: 650px; border-radius: 5px; border-color: #cad5c7; background: linear-gradient(180deg, #dce9e0, #b7d19f); }
+#networkSvg { height: 650px; }
+.detail-item, .event-item, .alert-item { border-radius: 5px; border-color: var(--line); }
+.detail-item { background: #f2f5ee; }
+.alert-item { background: #f2f5ee; color: var(--text); font-size: .72rem; }
+.history-panel, .recommendations { min-height: 170px; }
+.chart-bars { display: flex; align-items: end; gap: 6px; height: 94px; margin: 4px 16px 0; padding: 10px 8px 0; border-bottom: 1px solid var(--line); background: repeating-linear-gradient(to top, transparent 0, transparent 20px, rgba(57, 115, 255, .08) 21px); }
+.chart-bars i { flex: 1; min-width: 4px; border-radius: 3px 3px 0 0; background: linear-gradient(#3973ff, #79b9ed); animation: chartRise .8s ease both; }
+.chart-labels { display: flex; justify-content: space-between; padding: 6px 16px 0; color: var(--muted); font-size: .58rem; }
+.recommendations ul { display: grid; gap: 8px; margin: 0; padding: 0 16px 15px; list-style: none; }
+.recommendations li { display: flex; gap: 8px; align-items: flex-start; font-size: .7rem; }
+.recommendations li small { display: block; margin-top: 3px; color: var(--muted); font-size: .62rem; }
+.recommendation-icon { display: grid; width: 22px; height: 22px; flex: 0 0 22px; place-items: center; border-radius: 4px; color: #fff; background: var(--primary); font-size: .9rem; }
+.water-icon { background: #2a9bc4; }
+@keyframes chartRise { from { transform: scaleY(0); transform-origin: bottom; } to { transform: scaleY(1); } }
+
+.app-section-nav { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
+.app-section-tab { padding: 8px 10px; border: 1px solid var(--line); border-radius: 5px; color: var(--text); background: transparent; font-size: .72rem; font-weight: 700; white-space: nowrap; }
+.app-section-tab.active { border-color: #202823; background: #d8ed47; }
+.app-shell.fieldmark-active { display: grid; height: 100vh; min-height: 100vh; grid-template-columns: minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr); grid-template-areas: "topbar" "fieldmark"; overflow: hidden; }
+.app-shell.fieldmark-active > .command-bar,
+.app-shell.fieldmark-active > .status-ribbon,
+.app-shell.fieldmark-active > .sidebar,
+.app-shell.fieldmark-active > .main-panel,
+.app-shell.fieldmark-active > .right-panel { display: none; }
+.fieldmark-view { grid-area: fieldmark; min-width: 0; min-height: 0; overflow: hidden; border: 1px solid var(--line); border-radius: 8px; background: #fff; }
+.fieldmark-view iframe { display: block; width: 100%; height: 100%; border: 0; background: #fff; }
+
+@media (max-width: 1200px) {
+  .app-shell { grid-template-columns: 290px minmax(0, 1fr); }
+  .right-panel { grid-column: 1 / -1; }
+}
+@media (max-width: 760px) {
+  .app-shell { display: flex; flex-direction: column; padding: 10px; }
+  .topbar { align-items: flex-start; flex-direction: column; }
+  .top-controls { width: 100%; }
+  .command-bar { align-items: stretch; flex-wrap: wrap; }
+  .command-title { flex-basis: 100%; }
+  .command-bar label { flex: 1 1 130px; }
+  .status-ribbon { grid-template-columns: repeat(2, 1fr); }
+  .status-ribbon > div:last-child { grid-column: 1 / -1; }
+  .monitor-grid { grid-template-columns: 1fr; }
+  .network-stage, #networkSvg { min-height: 520px; height: 520px; }
 }

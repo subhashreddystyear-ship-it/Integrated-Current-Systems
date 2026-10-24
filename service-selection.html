@@ -6,14 +6,13 @@
   <meta name="description" content="Choose a rural electricity service.">
   <title>Select a rural service | Integrated Current Systems</title>
   <link rel="stylesheet" href="style.css">
-  <script>
-    if (sessionStorage.getItem('isLoggedIn') !== 'true') window.location.href = 'index.html';
-  </script>
+  <script src="auth-client.js" defer></script>
+  <script>window.addEventListener('DOMContentLoaded', () => window.requireAuth());</script>
 </head>
 <body class="service-page">
   <main class="service-shell">
     <header class="service-header">
-      <a class="service-brand" href="location.html">Integrated Current Systems</a>
+      <a class="service-brand" href="rural-dashboard.html">Integrated Current Systems</a>
       <a class="service-back" href="location.html" onclick="sessionStorage.removeItem('smartRuralLocation')">Change location</a>
     </header>
 
